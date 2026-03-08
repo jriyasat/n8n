@@ -107,7 +107,12 @@ def generate_exec_brief(winner, ranking):
             "If details are missing, say what is unknown rather than guessing.",
             "Clearly separate reported facts (from source) from analysis."
         ],
-        "output": "Return JSON with keys: title, slug, summary, markdown, meta_description, tags"
+        "image_rules": [
+            "Also provide a stock-image search query for a flat illustration hero image (1200x630 feel).",
+            "image_query should be 4-10 keywords, include 'flat illustration' and/or 'vector', and avoid brand names.",
+            "image_alt should be plain, descriptive, <= 140 characters, no brand names."
+        ],
+        "output": "Return JSON with keys: title, slug, summary, markdown, meta_description, tags, image_query, image_alt"
     }
 
     resp = client.chat.completions.create(
@@ -176,6 +181,8 @@ meta_description: "{post.get('meta_description','')}"
         )
 
     print("Wrote draft:", base + ".md")
+    print("Image query:", post.get("image_query"))
+    print("Image alt:", post.get("image_alt"))
 
 if __name__ == "__main__":
     main()
